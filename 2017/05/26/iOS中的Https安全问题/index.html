@@ -68,7 +68,7 @@
 <link href="/blog/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Animate," />
 
 
 
@@ -84,15 +84,28 @@
 
 
 
-<meta name="description" content="思考前行">
-<meta property="og:type" content="website">
-<meta property="og:title" content="晴天·小鱼">
-<meta property="og:url" content="http://qingtianli.me/blog/index.html">
+<meta name="description" content="iOS中的Https安全问题
+#几个概念
+##SSL/TSLHTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。 准确的说SSL/TSL是会话层，http是应用层。
+基本原理：SSL/TLS协议的基本思路是采用公钥加密法，也">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS中的Https安全问题">
+<meta property="og:url" content="http://qingtianli.me/blog/2017/05/26/iOS中的Https安全问题/index.html">
 <meta property="og:site_name" content="晴天·小鱼">
-<meta property="og:description" content="思考前行">
+<meta property="og:description" content="iOS中的Https安全问题
+#几个概念
+##SSL/TSLHTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。 准确的说SSL/TSL是会话层，http是应用层。
+基本原理：SSL/TLS协议的基本思路是采用公钥加密法，也">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2376458-1fc58b2e58e4e497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://images.cnitblog.com/news/1/201312/03113235-2c09235820ea4092bb2339f1d9fa4b60.png">
+<meta property="og:updated_time" content="2017-05-26T03:44:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="晴天·小鱼">
-<meta name="twitter:description" content="思考前行">
+<meta name="twitter:title" content="iOS中的Https安全问题">
+<meta name="twitter:description" content="iOS中的Https安全问题
+#几个概念
+##SSL/TSLHTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。 准确的说SSL/TSL是会话层，http是应用层。
+基本原理：SSL/TLS协议的基本思路是采用公钥加密法，也">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2376458-1fc58b2e58e4e497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -110,7 +123,7 @@
   };
 </script>
 
-  <title> 晴天·小鱼 </title>
+  <title> iOS中的Https安全问题 | 晴天·小鱼 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,9 +144,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -250,9 +261,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -272,10 +283,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/blog/2017/05/26/iOS中的Https安全问题/" itemprop="url">
-                  iOS中的Https安全问题
-                </a>
+                iOS中的Https安全问题
               
             
           </h1>
@@ -334,9 +342,7 @@
       
 
       
-        
-          
-            <p>iOS中的Https安全问题</p>
+        <p>iOS中的Https安全问题</p>
 <p>#几个概念</p>
 <p>##SSL/TSL<br>HTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。 准确的说SSL/TSL是会话层，http是应用层。</p>
 <p>基本原理：<br>SSL/TLS协议的基本思路是采用公钥加密法，也就是说，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。</p>
@@ -376,367 +382,58 @@
 <p><strong>建议采用 HTTPS，对证书域名做校验，不要忽略证书校验错误，也可以采用固定证书的形式，但 要注意固定证书的更新机制。</strong></p>
 <p>#参考文献<br><a href="http://kb.cnblogs.com/page/194742/" target="_blank" rel="external">数字证书及CA的扫盲介绍</a><br><a href="http://www.finalshares.com/read-6872" target="_blank" rel="external">iOS关于HTTPS支持并防止中间人攻击 </a><br><a href="http://www.cocoachina.com/ios/20150810/12947.html" target="_blank" rel="external">打造安全的App！iOS安全系列之 HTTPS</a><br><a href="http://www.jianshu.com/p/74830162717e" target="_blank" rel="external">iOS对HTTPS证书链的验证</a><br><a href="http://www.jianshu.com/p/072a657337ae" target="_blank" rel="external">九个问题从入门到熟悉HTTPS</a></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2016/06/02/article1/" itemprop="url">
-                  markdown
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T16:57:07+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/blog/categories/FE/" itemprop="url" rel="index">
-                    <span itemprop="name">FE</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
+            <a href="/blog/tags/Animate/" rel="tag">#Animate</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h1 id="head1"><a href="#head1" class="headerlink" title="head1"></a>head1</h1><blockquote>
-<p>var i = 12;</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2016/06/02/article1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/06/02/article1/" rel="next" title="markdown">
+                <i class="fa fa-chevron-left"></i> markdown
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/blog/2016/06/02/myfirst/" itemprop="url">
-                  myfirst
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T16:25:55+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/blog/categories/IOS/" itemprop="url" rel="index">
-                    <span itemprop="name">IOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h1 id="第一个"><a href="#第一个" class="headerlink" title="第一个"></a>第一个</h1><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2016/05/31/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-31T14:40:55+08:00" content="2016-05-31">
-              2016-05-31
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -744,6 +441,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -763,8 +464,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/blog/images/avatar.png"
@@ -814,6 +524,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -910,6 +631,10 @@
   
 
   
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
