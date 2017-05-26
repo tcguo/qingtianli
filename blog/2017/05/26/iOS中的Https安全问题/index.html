@@ -98,7 +98,7 @@
 基本原理：SSL/TLS协议的基本思路是采用公钥加密法，也">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2376458-1fc58b2e58e4e497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://images.cnitblog.com/news/1/201312/03113235-2c09235820ea4092bb2339f1d9fa4b60.png">
-<meta property="og:updated_time" content="2017-05-26T03:44:55.000Z">
+<meta property="og:updated_time" content="2017-05-26T06:07:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS中的Https安全问题">
 <meta name="twitter:description" content="iOS中的Https安全问题
@@ -348,6 +348,7 @@
 <p>基本原理：<br>SSL/TLS协议的基本思路是采用公钥加密法，也就是说，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。</p>
 <p><strong>（1）如何保证公钥不被篡改？</strong><br> 解决方法：将公钥放在数字证书中。只要证书是可信的，公钥就是可信的。</p>
 <p><strong>（2）公钥加密计算量太大，如何减少耗用的时间？</strong><br>解决方法：每一次对话（session），客户端和服务器端都生成一个”对话密钥”（session key），用它来加密信息。由于”对话密钥”是对称加密，所以运算速度非常快，而服务器公钥只用于加密”对话密钥”本身，这样就减少了加密运算的消耗时间。</p>
+<a id="more"></a>
 <p>简单的来说，SSL/TSL通过四次握手，主要交换三个信息：</p>
 <ol>
 <li><p><strong>数字证书：</strong> 该证书包含了公钥等信息，一般是由服务器发给客户端，接收方通过验证这个证书是不是由信赖的CA签发，或者与本地的证书相对比，来判断证书是否可信；假如需要双向验证，则服务器和客户端都需要发送数字证书给对方验证；</p>
