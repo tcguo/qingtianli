@@ -1,0 +1,664 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Animate," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="iOS中的Https安全问题
+#几个概念
+##SSL/TSLHTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。 准确的说SSL/TSL是会话层，http是应用层。
+基本原理：SSL/TLS协议的基本思路是采用公钥加密法，也">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS中的Https安全问题">
+<meta property="og:url" content="http://qingtianli.me/blog/2017/05/26/iOS中的Https安全问题/index.html">
+<meta property="og:site_name" content="晴天·小鱼">
+<meta property="og:description" content="iOS中的Https安全问题
+#几个概念
+##SSL/TSLHTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。 准确的说SSL/TSL是会话层，http是应用层。
+基本原理：SSL/TLS协议的基本思路是采用公钥加密法，也">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2376458-1fc58b2e58e4e497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://images.cnitblog.com/news/1/201312/03113235-2c09235820ea4092bb2339f1d9fa4b60.png">
+<meta property="og:updated_time" content="2017-05-26T03:44:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS中的Https安全问题">
+<meta name="twitter:description" content="iOS中的Https安全问题
+#几个概念
+##SSL/TSLHTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。 准确的说SSL/TSL是会话层，http是应用层。
+基本原理：SSL/TLS协议的基本思路是采用公钥加密法，也">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2376458-1fc58b2e58e4e497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS中的Https安全问题 | 晴天·小鱼 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">晴天·小鱼</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">技术的鱼儿</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/blog/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-custom">
+          <a href="/blog/custom" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            menu.custom
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS中的Https安全问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-26T11:44:01+08:00" content="2017-05-26">
+              2017-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/ios/" itemprop="url" rel="index">
+                    <span itemprop="name">ios</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>iOS中的Https安全问题</p>
+<p>#几个概念</p>
+<p>##SSL/TSL<br>HTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。 准确的说SSL/TSL是会话层，http是应用层。</p>
+<p>基本原理：<br>SSL/TLS协议的基本思路是采用公钥加密法，也就是说，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。</p>
+<p><strong>（1）如何保证公钥不被篡改？</strong><br> 解决方法：将公钥放在数字证书中。只要证书是可信的，公钥就是可信的。</p>
+<p><strong>（2）公钥加密计算量太大，如何减少耗用的时间？</strong><br>解决方法：每一次对话（session），客户端和服务器端都生成一个”对话密钥”（session key），用它来加密信息。由于”对话密钥”是对称加密，所以运算速度非常快，而服务器公钥只用于加密”对话密钥”本身，这样就减少了加密运算的消耗时间。</p>
+<p>简单的来说，SSL/TSL通过四次握手，主要交换三个信息：</p>
+<ol>
+<li><p><strong>数字证书：</strong> 该证书包含了公钥等信息，一般是由服务器发给客户端，接收方通过验证这个证书是不是由信赖的CA签发，或者与本地的证书相对比，来判断证书是否可信；假如需要双向验证，则服务器和客户端都需要发送数字证书给对方验证；</p>
+</li>
+<li><p><strong>三个随机数：</strong>这三个随机数构成了后续通信过程中用来对数据进行对称加密解密的<strong>“对话密钥”</strong>。首先客户端先发第一个随机数N1，然后服务器回了第二个随机数N2（这个过程同时把之前提到的证书发给客户端），这两个随机数都是明文的；而第三个随机数N3（这个随机数被称为Premaster secret），客户端用数字证书的公钥进行非对称加密，发给服务器；而服务器用只有自己知道的私钥来解密，获取第三个随机数。只有，服务端和客户端都有了三个随机数N1+N2+N3，然后两端就使用这三个随机数来生成“对话密钥”，在此之后的通信都是使用这个“对话密钥”来进行对称加密解密。因为这个过程中，服务端的私钥只用来解密第三个随机数，从来没有在网络中传输过，这样的话，只要私钥没有被泄露，那么数据就是安全的。</p>
+</li>
+<li><strong>加密通信协议</strong>：就是双方商量使用哪一种加密方式，假如两者支持的加密方式不匹配，则无法进行通信；</li>
+</ol>
+<p><img src="http://upload-images.jianshu.io/upload_images/2376458-1fc58b2e58e4e497.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>有个常见的问题，关于随机数为什么要三个？只最后一个随机数N3不可以么？  </p>
+<p>这是由于SSL/TLS设计，就假设服务器不相信所有的客户端都能够提供完全随机数，假如某个客户端提供的随机数不随机的话，就大大增加了“对话密钥”被破解的风险，所以由三组随机数组成最后的随机数，保证了随机数的随机性，以此来保证每次生成的“对话密钥”安全性。</p>
+<p><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a><br><a href="http://www.cocoachina.com/ios/20150810/12947.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a></p>
+<p>##数字证书</p>
+<p><strong>什么是CA证书？</strong><br>　　CA 证书，顾名思义，就是CA颁发的证书。<br>　　前面已经说了，人人都可以找工具制作证书。但是你一个小破孩制作出来的证书是没啥用处的。因为你不是权威的CA机关，你自己搞的证书不具有权威性。<br>　　这就好比上述的例子里，某个坏人自己刻了一个公章，盖到介绍信上。但是别人一看，不是受信任的中介公司的公章，就不予理睬。坏蛋的阴谋就不能得逞啦。<br>　　<strong>什么是证书信任链？</strong><br>　　实际上，证书之间的信任关系，是可以嵌套的。比如，C 信任 A1，A1 信任 A2，A2 信任 A3……这个叫做证书的信任链。只要你信任链上的头一个证书，那后续的证书，都是可以信任滴。<br>　　<br>　　<strong>什么是根证书？</strong><br>　　“根证书”的洋文叫“root certificate”，专业的解释看“这里”。为了说清楚根证书是咋回事，再来看个稍微复杂点的例子。<br>　　假设 C 证书信任 A 和 B；然后 A 信任 A1 和 A2；B 信任 B1 和 B2。则它们之间，构成如下的一个树形关系（一个倒立的树）。</p>
+<p><img src="http://images.cnitblog.com/news/1/201312/03113235-2c09235820ea4092bb2339f1d9fa4b60.png" alt=""><br>处于最顶上的树根位置的那个证书，就是“根证书”。除了根证书，其它证书都要依靠上一级的证书，来证明自己。那谁来证明“根证书”可靠捏？实际上，根证书自己证明自己是可靠滴（或者换句话说，根证书是不需要被证明滴）。<br>　　聪明的同学此刻应该意识到了：根证书是整个证书体系安全的根本。所以，如果某个证书体系中，根证书出了问题（不再可信了），那么所有被根证书所信任的其它证书，也就不再可信了。这个后果是相当相当滴严重（简直可以说是灾难性的）。<br>　　<br>　　<em>这也是中间人攻击的一个入口。所以如果不小心安装过非权威机构的根证书，比如客户端链接恶意的 Wi-Fi等情况下装上恶意证书，这时候设备上就多了一个预设的公钥，那么用恶意私钥加密的证书就能被正常解析出来。所以千万不要随便装根证书，这等于是为那些恶意证书留了一扇门。</em></p>
+<p>#iOS的Https安全校验</p>
+<p>现在为加强ios App的安全，基本所有的app都采用https访问接口和H5页面。</p>
+<p>##低安全NSURLSession默认校验</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session task:(<span class="built_in">NSURLSessionTask</span> *)task</span><br><span class="line">didReceiveChallenge:(<span class="built_in">NSURLAuthenticationChallenge</span> *)challenge</span><br><span class="line"> completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSURLSessionAuthChallengeDisposition</span> disposition, <span class="built_in">NSURLCredential</span> * __nullable credential))completionHandler &#123;</span><br><span class="line">    <span class="built_in">NSURLProtectionSpace</span> *protectionSpace = challenge.protectionSpace;</span><br><span class="line">    SecTrustRef serverTrust = protectionSpace.serverTrust;</span><br><span class="line">    __block <span class="built_in">NSURLCredential</span> *credential = <span class="literal">nil</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSURLSessionAuthChallengeDisposition</span> disposition = <span class="built_in">NSURLSessionAuthChallengePerformDefaultHandling</span>;</span><br><span class="line">    <span class="keyword">if</span> ([challenge.protectionSpace.authenticationMethod isEqualToString:<span class="built_in">NSURLAuthenticationMethodServerTrust</span>]) &#123;</span><br><span class="line">        <span class="keyword">if</span> (BFServerTrustIsValid(serverTrust)) &#123;</span><br><span class="line">            disposition = <span class="built_in">NSURLSessionAuthChallengeUseCredential</span>;</span><br><span class="line">            credential = [<span class="built_in">NSURLCredential</span> credentialForTrust:challenge.protectionSpace.serverTrust];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            disposition = <span class="built_in">NSURLSessionAuthChallengeRejectProtectionSpace</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        disposition = <span class="built_in">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (completionHandler) &#123;</span><br><span class="line">        completionHandler(disposition, credential);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">BOOL</span> BFServerTrustIsValid(SecTrustRef serverTrust) &#123;</span><br><span class="line">    <span class="built_in">BOOL</span> isValid = <span class="literal">NO</span>;</span><br><span class="line">    SecTrustResultType result;</span><br><span class="line">    __Require_noErr_Quiet(SecTrustEvaluate(serverTrust, &amp;result), _<span class="keyword">out</span>);</span><br><span class="line">    isValid = (result == kSecTrustResultUnspecified || result == kSecTrustResultProceed);</span><br><span class="line">    </span><br><span class="line">_<span class="keyword">out</span>:</span><br><span class="line">    <span class="keyword">return</span> isValid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##中级安全CA证书默认校验+域名host白名单</p>
+<p>我们可以建立一个host white list， 在得到对象NSURLProtectionSpace的时候，首先校验host。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session task:(<span class="built_in">NSURLSessionTask</span> *)task</span><br><span class="line">didReceiveChallenge:(<span class="built_in">NSURLAuthenticationChallenge</span> *)challenge</span><br><span class="line"> completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSURLSessionAuthChallengeDisposition</span> disposition, <span class="built_in">NSURLCredential</span> * __nullable credential))completionHandler &#123;</span><br><span class="line">    <span class="built_in">NSURLProtectionSpace</span> *protectionSpace = challenge.protectionSpace;</span><br><span class="line">    SecTrustRef serverTrust = protectionSpace.serverTrust;</span><br><span class="line">    __block <span class="built_in">NSURLCredential</span> *credential = <span class="literal">nil</span>;</span><br><span class="line">    <span class="comment">// 这里到host白名单中校验是否安全</span></span><br><span class="line">    <span class="built_in">BOOL</span> trust =  [[AppStatus sharedManager] matchHost:challenge.protectionSpace.host isWebView:<span class="literal">NO</span>];</span><br><span class="line">    <span class="keyword">if</span> (!trust) &#123;</span><br><span class="line">        <span class="keyword">if</span> (completionHandler) &#123;</span><br><span class="line">            completionHandler(<span class="built_in">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span>, <span class="literal">nil</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSURLSessionAuthChallengeDisposition</span> disposition = <span class="built_in">NSURLSessionAuthChallengePerformDefaultHandling</span>;</span><br><span class="line">    <span class="keyword">if</span> ([challenge.protectionSpace.authenticationMethod isEqualToString:<span class="built_in">NSURLAuthenticationMethodServerTrust</span>]) &#123;</span><br><span class="line">        <span class="keyword">if</span> (BFServerTrustIsValid(serverTrust)) &#123;</span><br><span class="line">            disposition = <span class="built_in">NSURLSessionAuthChallengeUseCredential</span>;</span><br><span class="line">            credential = [<span class="built_in">NSURLCredential</span> credentialForTrust:challenge.protectionSpace.serverTrust];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            disposition = <span class="built_in">NSURLSessionAuthChallengeRejectProtectionSpace</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        disposition = <span class="built_in">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (completionHandler) &#123;</span><br><span class="line">        completionHandler(disposition, credential);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##高安全使用自签名证书<br>这种方式就是在app中存放一份服务端的证书。然后客户端证书和服务器证书进行强校验。<br>这里也有几种方式：</p>
+<ol>
+<li>只校验证书里的公钥，不校验域名和有效期等，只要公钥是正确的，就能保证通信不会被窃听，因为中间人没有私钥，无法解开通过公钥加密的数据。</li>
+<li>设置本地为锚点证书，假如验证的数字证书是这个锚点证书的子节点，即验证的数字证书是由锚点证书对应CA或子CA签发的，或是该证书本身，则信任该证书）。从服务器端证书链的根节点往下遍历，看看是否有与客户端的绑定证书一致的，有的话，就说明服务器端是可信的。</li>
+</ol>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)evaluateServerTrust:(SecTrustRef)serverTrust</span><br><span class="line">                  forDomain:(<span class="built_in">NSString</span> *)domain&#123;</span><br><span class="line"><span class="keyword">self</span>.allowInvalidCertificates==<span class="literal">YES</span>表示如果此处允许使用自建证书（服务器自己弄的CA证书，非官方），并且还想验证domain是否有效(<span class="keyword">self</span>.validatesDomainName == <span class="literal">YES</span>)，也就是说你想验证自建证书的domain是否有效。那么你必须使用pinnedCertificates（就是在客户端保存服务器端颁发的证书拷贝）才可以。但是你的SSLPinningMode为AFSSLPinningModeNone，表示你不使用SSL pinning，只跟浏览器一样在系统的信任机构列表里验证服务端返回的证书。所以当然你的客户端上没有你导入的pinnedCertificates，同样表示你无法验证该自建证书。所以都返回<span class="literal">NO</span>。最终结论就是要使用服务器端自建证书，那么就得将对应的证书拷贝到iOS客户端，并使用AFSSLPinningMode或AFSSLPinningModePublicKey</span><br><span class="line">    <span class="keyword">if</span> (domain &amp;&amp; <span class="keyword">self</span>.allowInvalidCertificates &amp;&amp; <span class="keyword">self</span>.validatesDomainName &amp;&amp; (<span class="keyword">self</span>.SSLPinningMode == AFSSLPinningModeNone || [<span class="keyword">self</span>.pinnedCertificates count] == <span class="number">0</span>)) &#123;</span><br><span class="line">        <span class="comment">// https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/NetworkingTopics/Articles/OverridingSSLChainValidationCorrectly.html</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"In order to validate a domain name for self signed certificates, you MUST use pinning."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 此处设置验证证书的策略</span></span><br><span class="line">    <span class="built_in">NSMutableArray</span> *policies = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.validatesDomainName) &#123;</span><br><span class="line">        <span class="comment">// 如果需要验证domain，那么就使用SecPolicyCreateSSL函数创建验证策略，其中第一个参数为true表示验证整个SSL证书链，第二个参数传入domain，用于判断整个证书链上叶子节点表示的那个domain是否和此处传入domain一致</span></span><br><span class="line">        [policies addObject:(__bridge_transfer <span class="keyword">id</span>)SecPolicyCreateSSL(<span class="literal">true</span>, (__bridge <span class="built_in">CFStringRef</span>)domain)];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果不需要验证domain，就使用默认的BasicX509验证策略</span></span><br><span class="line">        [policies addObject:(__bridge_transfer <span class="keyword">id</span>)SecPolicyCreateBasicX509()];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 为serverTrust设置验证策略，即告诉客户端如何验证serverTrust</span></span><br><span class="line">    SecTrustSetPolicies(serverTrust, (__bridge <span class="built_in">CFArrayRef</span>)policies);</span><br><span class="line">    <span class="comment">// 如果SSLPinningMode为 AFSSLPinningModeNone，表示你不使用SSL pinning，但是我允许自建证书，那么返回YES，或者使用AFServerTrustIsValid函数看看serverTrust是否可信任，如果信任，也返回YES</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.SSLPinningMode == AFSSLPinningModeNone) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.allowInvalidCertificates || AFServerTrustIsValid(serverTrust);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!AFServerTrustIsValid(serverTrust) &amp;&amp; !<span class="keyword">self</span>.allowInvalidCertificates) &#123;</span><br><span class="line">        <span class="comment">// 既不允许自建证书，而且使用AFServerTrustIsValid函数又返回NO，那么该serverTrust就真的不能通过验证了</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> (<span class="keyword">self</span>.SSLPinningMode) &#123;</span><br><span class="line">        <span class="comment">// 理论上，上面那个部分已经解决了self.SSLPinningMode)为AFSSLPinningModeNone)等情况，所以此处再遇到，就直接返回NO</span></span><br><span class="line">        <span class="keyword">case</span> AFSSLPinningModeNone:</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">       <span class="comment">// 这个模式表示用证书绑定(SSL Pinning)方式验证证书，需要客户端保存有服务端的证书拷贝</span></span><br><span class="line">        <span class="comment">// 注意客户端保存的证书存放在self.pinnedCertificates中</span></span><br><span class="line">        <span class="keyword">case</span> AFSSLPinningModeCertificate: &#123;</span><br><span class="line">            <span class="built_in">NSMutableArray</span> *pinnedCertificates = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">NSData</span> *certificateData <span class="keyword">in</span> <span class="keyword">self</span>.pinnedCertificates) &#123;</span><br><span class="line">               <span class="comment">// 这里使用SecCertificateCreateWithData函数对原先的pinnedCertificates做一些处理，保证返回的证书都是DER编码的X.509证书</span></span><br><span class="line">                [pinnedCertificates addObject:(__bridge_transfer <span class="keyword">id</span>)SecCertificateCreateWithData(<span class="literal">NULL</span>, (__bridge <span class="built_in">CFDataRef</span>)certificateData)];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 将pinnedCertificates设置成需要参与验证的Anchor Certificate（锚点证书，通过SecTrustSetAnchorCertificates设置了参与校验锚点证书之后，假如验证的数字证书是这个锚点证书的子节点，即验证的数字证书是由锚点证书对应CA或子CA签发的，或是该证书本身，则信任该证书），具体就是调用SecTrustEvaluate来验证。</span></span><br><span class="line">            SecTrustSetAnchorCertificates(serverTrust, (__bridge <span class="built_in">CFArrayRef</span>)pinnedCertificates);</span><br><span class="line">            <span class="keyword">if</span> (!AFServerTrustIsValid(serverTrust)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 服务器端的证书链，注意此处返回的证书链顺序是从叶节点到根节点</span></span><br><span class="line">            <span class="built_in">NSArray</span> *serverCertificates = AFCertificateTrustChainForServerTrust(serverTrust);</span><br><span class="line">            <span class="comment">// 从服务器端证书链的根节点往下遍历，看看是否有与客户端的绑定证书一致的，有的话，就说明服务器端是可信的。因为遍历顺序正好相反，所以使用reverseObjectEnumerator</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">NSData</span> *trustChainCertificate <span class="keyword">in</span> [serverCertificates reverseObjectEnumerator])&#123;</span><br><span class="line">                <span class="keyword">if</span> ([<span class="keyword">self</span>.pinnedCertificates containsObject:trustChainCertificate]) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">                &#125;</span><br><span class="line">          &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// AFSSLPinningModePublicKey模式同样是用证书绑定(SSL Pinning)方式验证，客户端要有服务端的证书拷贝，只是验证时只验证证书里的公钥，不验证证书的有效期等信息。只要公钥是正确的，就能保证通信不会被窃听，因为中间人没有私钥，无法解开通过公钥加密的数据。</span></span><br><span class="line">        <span class="keyword">case</span> AFSSLPinningModePublicKey: &#123;</span><br><span class="line">            <span class="built_in">NSUInteger</span> trustedPublicKeyCount = <span class="number">0</span>;</span><br><span class="line">            <span class="comment">// 从serverTrust中取出服务器端传过来的所有可用的证书，并依次得到相应的公钥</span></span><br><span class="line">            <span class="built_in">NSArray</span> *publicKeys = AFPublicKeyTrustChainForServerTrust(serverTrust);</span><br><span class="line">            <span class="comment">// 依次遍历这些公钥，如果和客户端绑定证书的公钥一致，那么就给trustedPublicKeyCount加一</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">id</span> trustChainPublicKey <span class="keyword">in</span> publicKeys) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">id</span> pinnedPublicKey <span class="keyword">in</span> <span class="keyword">self</span>.pinnedPublicKeys) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (AFSecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) &#123;</span><br><span class="line">                        trustedPublicKeyCount += <span class="number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          <span class="comment">// trustedPublicKeyCount大于0说明服务器端中的某个证书和客户端绑定的证书公钥一致，认为服务器端是可信的</span></span><br><span class="line">            <span class="keyword">return</span> trustedPublicKeyCount &gt; <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>AFN提供了各种校验证书的方式。可以参数源码<br><a href="http://www.cnblogs.com/polobymulberry/p/5174298.html" target="_blank" rel="external">AFSecurityPolicy - 网络安全策略</a></p>
+<p> 总结</p>
+<p>不安全的 HTTP 协议，很容易被网络嗅探，中间人劫持和篡改，从而泄露隐私信息，冒充伪造虚 假的请求等。虽然 HTTPS 可以从理论上很好的解决窃听、冒充、篡改等风险，但是由于客户端 和服务器实现和配置不当，很可能导致 HTTPS 被绕过。客户端证书校验不全面或有误就是比较 典型的场景，通常表现为未对证书域名做校验，忽略证书校验错误等。</p>
+<p><strong>建议采用 HTTPS，对证书域名做校验，不要忽略证书校验错误，也可以采用固定证书的形式，但 要注意固定证书的更新机制。</strong></p>
+<p>#参考文献<br><a href="http://kb.cnblogs.com/page/194742/" target="_blank" rel="external">数字证书及CA的扫盲介绍</a><br><a href="http://www.finalshares.com/read-6872" target="_blank" rel="external">iOS关于HTTPS支持并防止中间人攻击 </a><br><a href="http://www.cocoachina.com/ios/20150810/12947.html" target="_blank" rel="external">打造安全的App！iOS安全系列之 HTTPS</a><br><a href="http://www.jianshu.com/p/74830162717e" target="_blank" rel="external">iOS对HTTPS证书链的验证</a><br><a href="http://www.jianshu.com/p/072a657337ae" target="_blank" rel="external">九个问题从入门到熟悉HTTPS</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/Animate/" rel="tag">#Animate</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/06/02/article1/" rel="next" title="markdown">
+                <i class="fa fa-chevron-left"></i> markdown
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/avatar.png"
+               alt="qingtianli" />
+          <p class="site-author-name" itemprop="name">qingtianli</p>
+          <p class="site-description motion-element" itemprop="description">思考前行</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qingtianli</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
